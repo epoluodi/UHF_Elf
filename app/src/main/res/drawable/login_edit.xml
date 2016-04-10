@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- 圆角 -->
+    <corners
+        android:radius="8dp"
+
+        />
+    <solid
+
+        android:color="@color/white"
+        /><!-- 填充的颜色 -->
+    <stroke android:width="2px"
+        android:color="@color/editline"/>
+
+    <!--<gradient android:startColor="@color/red"-->
+        <!--android:centerColor="@color/red"-->
+        <!--android:endColor="@color/salmon"-->
+        <!--android:angle="270"-->
+        <!--/>-->
+    <!-- 描边 -->
+
+
+
+</shape>
