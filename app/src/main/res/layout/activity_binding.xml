@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="kaiqiaole.com.uhf_elf.BindingActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:id="@+id/head"
+        android:background="@color/logocolor">
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnreturn"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="#00000000"
+            android:drawableLeft="@mipmap/btnreturn"
+            android:paddingLeft="5dp"
+
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="扫描窍号"
+            android:textColor="@color/white"
+            android:id="@+id/title"
+            android:textSize="24dp" />
+
+    </RelativeLayout>
+
+
+    <ListView
+        android:layout_below="@+id/head"
+        android:layout_above="@+id/control"
+        style="@style/List"
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+
+
+    <LinearLayout
+        android:id="@+id/control"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <Button
+            android:id="@+id/btnsf"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+          android:layout_marginTop="10dp"
+            android:layout_below="@+id/rememberpwd"
+            android:text="扫描身份标签"
+            android:textSize="20dp"
+
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:background="@drawable/login_btn_selector"
+            />
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/btnft"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/rememberpwd"
+            android:text="扫描封条标签"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:background="@drawable/login_btn_selector"
+            />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

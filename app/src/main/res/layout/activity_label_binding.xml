@@ -14,7 +14,7 @@
         <Button
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-
+            android:id="@+id/btnreturn"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:background="#00000000"
@@ -47,8 +47,8 @@
         android:textCursorDrawable="@drawable/color_cursor"
         android:drawableLeft="@mipmap/barcode_icon"
         android:paddingLeft="10dp"
-        android:inputType="textCapCharacters"
-        android:imeOptions="actionNext"
+        android:inputType="textUri"
+        android:imeOptions="actionSearch"
         android:id="@+id/barcode"
 
         />
@@ -61,6 +61,7 @@
 
 
     <Button
+        android:id="@+id/btnscan"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
