@@ -2,11 +2,26 @@ package kaiqiaole.com.uhf_elf.Common;
 
 
 
+import org.apache.http.HttpVersion;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
+import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.protocol.ExecutionContext;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -29,7 +44,7 @@ public class AjaxHttpPlugin {
      * http请求对象
      */
     private HttpClient m_httpClient;
-
+    List<NameValuePair> pairList;
     /**
      * 初始化http
      * @return
@@ -37,12 +52,7 @@ public class AjaxHttpPlugin {
     public HttpClientClass initHttp()
     {
         try {
-            KeyStore trustStore = KeyStore.getInstance(KeyStore
-                    .getDefaultType());
-            trustStore.load(null, null);
-
-            SSLSocketFactory sf = new SSLSocketFactoryEx(trustStore);
-            sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            pairList = new ArrayList<NameValuePair>();
 
             // 设置一些基本参数
             HttpParams params = new BasicHttpParams();
@@ -59,7 +69,7 @@ public class AjaxHttpPlugin {
             SchemeRegistry schReg = new SchemeRegistry();
             schReg.register(new Scheme("http", PlainSocketFactory
                     .getSocketFactory(), 80));
-            schReg.register(new Scheme("https", sf, 443));
+
 
             // 设置我们的HttpClient支持HTTP和HTTPS两种模式
             // SchemeRegistry schReg = new SchemeRegistry();
@@ -79,7 +89,7 @@ public class AjaxHttpPlugin {
         catch (Exception e)
         {
 
-            Logger.e(Tag, e.fillInStackTrace().toString());
+
             return null;
         }
 
@@ -87,71 +97,11 @@ public class AjaxHttpPlugin {
     }
 
 
-    /**
-     * 组合url字符串 get请求
-     * @param jsonArray
-     * @return
-     */
-    public String getUrlString(JSONArray jsonArray)
+
+    public UrlEncodedFormEntity getPostBodyData()
     {
-        String url;
-        JSONObject jsonObject;
-
-        try
-        {
-            url = GlobalConfig.globalConfig.getAppUrl();
-            url += "?";
-            jsonObject = jsonArray.getJSONObject(0);
-            Iterator<String> stringIterator = jsonObject.keys();
-            String params="",key;
-            while (stringIterator.hasNext())
-            {
-                key = stringIterator.next();
-                params += String.format("%1$s=%2$s&",key
-                ,jsonObject.getString(key));
-
-            }
-
-            url += params.substring(0,params.length()-1);
-
-
-            return url;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
-    /**
-     * post 请求
-     * @param jsonArray
-     * @return
-     */
-    public UrlEncodedFormEntity postUrlString(JSONArray jsonArray)
-    {
-
-        JSONObject jsonObject;
-        UrlEncodedFormEntity urlEncodedFormEntity;
-        BasicNameValuePair basicNameValuePair;
-        List<NameValuePair> pairList;
-        try
-        {
-
-            jsonObject = jsonArray.getJSONObject(0);
-            Iterator<String> stringIterator = jsonObject.keys();
-            String key;
-            pairList = new ArrayList<NameValuePair>();
-            while (stringIterator.hasNext())
-            {
-                key = stringIterator.next();
-                basicNameValuePair = new BasicNameValuePair(key,
-                        jsonObject.getString(key));
-                pairList.add(basicNameValuePair);
-            }
-
-
+        try {
+            UrlEncodedFormEntity urlEncodedFormEntity;
             urlEncodedFormEntity = new UrlEncodedFormEntity(pairList, HTTP.UTF_8);
             return urlEncodedFormEntity;
         }
@@ -161,6 +111,16 @@ public class AjaxHttpPlugin {
             return null;
         }
     }
+
+
+    public void addBodyData(String key,String value)
+    {
+        BasicNameValuePair basicNameValuePair;
+        basicNameValuePair = new BasicNameValuePair(key,
+                value);
+        pairList.add(basicNameValuePair);
+    }
+
 
 
 

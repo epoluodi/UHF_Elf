@@ -1,12 +1,13 @@
 package kaiqiaole.com.uhf_elf;
 
-import android.support.v7.app.AppCompatActivity;
+
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 
-public class BindingActivity extends AppCompatActivity {
+public class BindingActivity extends Activity {
     Button btnreturn;
 
     @Override

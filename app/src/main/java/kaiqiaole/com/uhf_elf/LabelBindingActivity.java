@@ -1,8 +1,9 @@
 package kaiqiaole.com.uhf_elf;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.LabeledIntent;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.method.KeyListener;
@@ -14,7 +15,7 @@ import android.widget.EditText;
 
 import scan.ScanActivity;
 
-public class LabelBindingActivity extends AppCompatActivity {
+public class LabelBindingActivity extends Activity {
 
     Button btnscan;
     EditText barcode;

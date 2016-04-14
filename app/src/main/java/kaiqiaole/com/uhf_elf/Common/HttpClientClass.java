@@ -3,16 +3,20 @@ package kaiqiaole.com.uhf_elf.Common;
 
 
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 
 /**
@@ -49,48 +53,14 @@ public final class HttpClientClass {
 
 		if (nReqMethod == REQ_METHOD_GET) {
 			m_httpGet = new HttpGet(url);
-			if (SuyApplication.getApplication()
-					.getSuyClient().getSuyUserInfo().m_loginResult!=null) {
-				m_httpGet.addHeader("token", SuyApplication.getApplication()
-						.getSuyClient().getSuyUserInfo().m_loginResult.m_strSKey);
-			}
-			m_httpGet.addHeader("deviceID",SuyApplication.getApplication()
-			.getUuid());
-			m_httpGet.addHeader("deviceType","02");
 
-
-
-			if (AppConfig.appConfig !=null) {
-				m_httpGet.addHeader("appCode", AppConfig.appConfig.getAppcode());
-				m_httpGet.addHeader("appVer", AppConfig.appConfig.getAppver());
-			}
-			else
-			{
-				m_httpGet.addHeader("appCode", "000000");
-				m_httpGet.addHeader("appVer", SuyApplication.getApplication().AppVerName());
-			}
 
 
 
 
 		} else if (nReqMethod == REQ_METHOD_POST) {
 			m_httpPost = new HttpPost(url);
-			if (SuyApplication.getApplication()
-					.getSuyClient().getSuyUserInfo().m_loginResult!=null)
-				m_httpPost.addHeader("token",SuyApplication.getApplication()
-						.getSuyClient().getSuyUserInfo().m_loginResult.m_strSKey);
-			m_httpPost.addHeader("deviceID",SuyApplication.getApplication()
-					.getUuid());
-			m_httpPost.addHeader("deviceType","02");
-			if (AppConfig.appConfig !=null) {
-				m_httpPost.addHeader("appCode", AppConfig.appConfig.getAppcode());
-				m_httpPost.addHeader("appVer", AppConfig.appConfig.getAppver());
-			}
-			else
-			{
-				m_httpPost.addHeader("appCode", "000000");
-				m_httpPost.addHeader("appVer", SuyApplication.getApplication().AppVerName());
-			}
+
 		} else {
 			return false;
 		}
@@ -99,39 +69,7 @@ public final class HttpClientClass {
 	}
 
 
-	/**
-	 * server调用
-	 * @param url
-	 * @param nReqMethod
-	 * @return
-	 */
-	public boolean openRequestForServer(String url, int nReqMethod, String token) {
-		closeRequest();
 
-		if (nReqMethod == REQ_METHOD_GET) {
-			m_httpGet = new HttpGet(url);
-			m_httpGet.addHeader("token", token);
-			m_httpGet.addHeader("deviceID",SuyApplication.getApplication()
-					.getUuid());
-			m_httpGet.addHeader("deviceType","02");
-			m_httpGet.addHeader("appCode", "000000");
-			m_httpGet.addHeader("appVer", SuyApplication.getApplication().AppVerName());
-
-		} else if (nReqMethod == REQ_METHOD_POST) {
-			m_httpPost = new HttpPost(url);
-			m_httpPost.addHeader("token", token);
-			m_httpPost.addHeader("deviceID",SuyApplication.getApplication()
-					.getUuid());
-			m_httpPost.addHeader("deviceType","02");
-			m_httpPost.addHeader("appCode", "000000");
-			m_httpPost.addHeader("appVer", SuyApplication.getApplication().AppVerName());
-
-		} else {
-			return false;
-		}
-
-		return true;
-	}
 
 
 
@@ -201,7 +139,6 @@ public final class HttpClientClass {
 		try
 		{
 
-
 			return m_httpResp;
 		}
 		catch (Exception e)
@@ -224,9 +161,9 @@ public final class HttpClientClass {
 				return bytData;
 			}
 		} catch (IllegalStateException e) {
-			Logger.e(TAG, e);
+
 		} catch (IOException e) {
-			Logger.e(TAG, e);
+
 		}
 		
 		return null;
@@ -240,9 +177,9 @@ public final class HttpClientClass {
 				return is;
 			}
 		} catch (IllegalStateException e) {
-			Logger.e(TAG, e);
+
 		} catch (IOException e) {
-			Logger.e(TAG, e);
+
 		}
 
 		return null;
