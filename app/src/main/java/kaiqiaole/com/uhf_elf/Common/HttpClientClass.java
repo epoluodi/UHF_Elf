@@ -6,16 +6,21 @@ package kaiqiaole.com.uhf_elf.Common;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -43,9 +48,15 @@ public final class HttpClientClass {
 	private HttpPost m_httpPost = null;
 	private HttpResponse m_httpResp = null;
 
-		
+	/**
+	 * http请求对象
+	 */
+
+	List<NameValuePair> pairList;
+
 	public HttpClientClass(HttpClient httpClient) {
 		m_httpClient = httpClient;
+		pairList = new ArrayList<NameValuePair>();
 	}
 		
 	public boolean openRequest(String url, int nReqMethod) {
@@ -147,6 +158,32 @@ public final class HttpClientClass {
 			return null;
 		}
 	}
+
+
+	public UrlEncodedFormEntity getPostBodyData()
+	{
+		try {
+			UrlEncodedFormEntity urlEncodedFormEntity;
+			urlEncodedFormEntity = new UrlEncodedFormEntity(pairList, HTTP.UTF_8);
+			return urlEncodedFormEntity;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+
+	public void addBodyData(String key,String value)
+	{
+		BasicNameValuePair basicNameValuePair;
+		basicNameValuePair = new BasicNameValuePair(key,
+				value);
+		pairList.add(basicNameValuePair);
+	}
+
+
 
 	/**
 	 * 读取服务器返回数据

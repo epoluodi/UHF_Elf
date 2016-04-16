@@ -8,12 +8,22 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import org.json.JSONObject;
+
+import java.util.concurrent.Callable;
+
+import kaiqiaole.com.uhf_elf.Common.Common;
+import kaiqiaole.com.uhf_elf.Common.CustomPopWindowPlugin;
+import kaiqiaole.com.uhf_elf.Service.Service;
 
 public class Login_activity extends Activity {
 
@@ -42,8 +52,7 @@ public class Login_activity extends Activity {
             username.setText(getKeyShareVarForString(getApplicationContext(), "username"));
             Boolean ispwd = getKeyShareVarForBoolean(getApplicationContext(), "isrememberpwd");
             checkBoxrememberpwd.setChecked(ispwd);
-            if (ispwd)
-            {
+            if (ispwd) {
                 pwd.setText(getKeyShareVarForString(getApplicationContext(), "userpwd"));
             }
 
@@ -53,6 +62,50 @@ public class Login_activity extends Activity {
 
     }
 
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            CustomPopWindowPlugin.CLosePopwindow();
+
+
+            if (msg.what == 1) {
+                setKeyShareVar(getApplicationContext(), "username", username.getText().toString());
+                setKeyShareVar(getApplicationContext(), "userpwd", pwd.getText().toString());
+                setKeyShareVar(getApplicationContext(), "isrememberpwd", checkBoxrememberpwd.isChecked());
+
+                String json = msg.obj.toString();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(json);
+                    int r = jsonObject.getInt("type");
+                    if (r !=1)
+                    {
+                        Toast.makeText(Login_activity.this, jsonObject.getString("info"),
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                   Common.worker_id = jsonObject.getJSONObject("result").getJSONObject("rows").getJSONObject("worker_info").getString("worker_id");
+                    Common.worker_code = jsonObject.getJSONObject("result").getJSONObject("rows").getJSONObject("worker_info").getString("worker_code");
+                    Common.worker_name = jsonObject.getJSONObject("result").getJSONObject("rows").getJSONObject("worker_info").getString("worker_name");
+                    Toast.makeText(Login_activity.this, "欢迎 " + Common.worker_name,
+                            Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Intent intent = new Intent(Login_activity.this, LabelBindingActivity.class);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
+            } else
+                Toast.makeText(Login_activity.this, "网络错误",
+                        Toast.LENGTH_SHORT).show();
+
+        }
+    };
 
     /**
      * 登录
@@ -67,13 +120,15 @@ public class Login_activity extends Activity {
                 return;
             }
 
-            setKeyShareVar(getApplicationContext(), "username", username.getText().toString());
-            setKeyShareVar(getApplicationContext(), "userpwd", pwd.getText().toString());
-            setKeyShareVar(getApplicationContext(), "isrememberpwd", checkBoxrememberpwd.isChecked());
+            CustomPopWindowPlugin.ShowPopWindow(btnlogin, getLayoutInflater(), "登录中...", "登录中...");
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Service service = new Service(Common.Login, handler);
+                    service.KQ_Login(username.getText().toString(), pwd.getText().toString());
 
-
-            Intent intent = new Intent(Login_activity.this, LabelBindingActivity.class);
-            startActivity(intent);
+                }
+            }).start();
 
         }
     };
@@ -81,6 +136,7 @@ public class Login_activity extends Activity {
 
     /**
      * 设置环境参数
+     *
      * @param context
      * @param key
      * @param value
@@ -102,17 +158,18 @@ public class Login_activity extends Activity {
         SharedPreferences sharedPreferences = context.getSharedPreferences("userinfo", Context.MODE_APPEND);
         return sharedPreferences.getString(key, "null");
     }
-    public static void setKeyShareVar(Context context,String key,boolean value)
-    {
+
+    public static void setKeyShareVar(Context context, String key, boolean value) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("userinfo", Context.MODE_APPEND);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(key,value);
+        editor.putBoolean(key, value);
         editor.commit();
     }
 
 
     /**
      * 按返回键
+     *
      * @param keyCode
      * @param event
      * @return
@@ -120,7 +177,7 @@ public class Login_activity extends Activity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
 
-        if (keyCode==4) {
+        if (keyCode == 4) {
 
 
             AlertDialog.Builder builder = new AlertDialog.Builder(Login_activity.this);
@@ -136,7 +193,7 @@ public class Login_activity extends Activity {
                 }
             });
 
-            AlertDialog alertDialog=builder.create();
+            AlertDialog alertDialog = builder.create();
             alertDialog.show();
 
 
@@ -144,5 +201,6 @@ public class Login_activity extends Activity {
         }
         return super.onKeyUp(keyCode, event);
     }
+
 
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/userinfo_menu_selector"
+
+    android:minHeight="60dp"
+    android:descendantFocusability="blocksDescendants"
+
+  >
+
+
+
+
+    <TextView
+        android:id="@+id/label_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+
+
+        android:text="人事部门"
+        android:textColor="@color/logocolor"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/label_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/label_id"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:text="主管"
+        android:textColor="@color/blackTransparentA"
+        android:textSize="12dp" />
+
+
+</RelativeLayout>

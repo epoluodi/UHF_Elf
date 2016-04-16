@@ -40,19 +40,16 @@ public class AjaxHttpPlugin {
     private static final String USER_AGENT = "Mozilla/4.0 "
             + "(compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR "
             + "1.1.4322; .NET CLR 2.0.50727; InfoPath.2; Alexa Toolbar)";
-    /**
-     * http请求对象
-     */
-    private HttpClient m_httpClient;
-    List<NameValuePair> pairList;
+
     /**
      * 初始化http
      * @return
      */
+    private HttpClient m_httpClient;
     public HttpClientClass initHttp()
     {
         try {
-            pairList = new ArrayList<NameValuePair>();
+
 
             // 设置一些基本参数
             HttpParams params = new BasicHttpParams();
@@ -97,29 +94,6 @@ public class AjaxHttpPlugin {
     }
 
 
-
-    public UrlEncodedFormEntity getPostBodyData()
-    {
-        try {
-            UrlEncodedFormEntity urlEncodedFormEntity;
-            urlEncodedFormEntity = new UrlEncodedFormEntity(pairList, HTTP.UTF_8);
-            return urlEncodedFormEntity;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-    public void addBodyData(String key,String value)
-    {
-        BasicNameValuePair basicNameValuePair;
-        basicNameValuePair = new BasicNameValuePair(key,
-                value);
-        pairList.add(basicNameValuePair);
-    }
 
 
 
