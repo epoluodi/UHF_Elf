@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/userinfo_menu_selector"
-
     android:minHeight="60dp"
     android:descendantFocusability="blocksDescendants"
 
@@ -16,12 +15,8 @@
         android:id="@+id/label_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-
-
         android:text="人事部门"
         android:textColor="@color/logocolor"
         android:textSize="20dp" />

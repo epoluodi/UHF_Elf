@@ -48,7 +48,7 @@
         android:textCursorDrawable="@drawable/color_cursor"
         android:drawableLeft="@mipmap/barcode_icon"
         android:paddingLeft="10dp"
-        android:inputType="textUri"
+        android:inputType="text"
         android:imeOptions="actionSearch"
         android:id="@+id/barcode"
 

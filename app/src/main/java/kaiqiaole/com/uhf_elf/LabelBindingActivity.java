@@ -50,7 +50,7 @@ public class LabelBindingActivity extends Activity {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
 
-            barcode.setText("NJ01TYQ1099");
+//            barcode.setText("NJ01TYQ1099");
             if (event.getKeyCode() == 66 && event.getAction() == KeyEvent.ACTION_UP)
             {
                 if (barcode.getText().toString().equals(""))
@@ -81,6 +81,7 @@ public class LabelBindingActivity extends Activity {
     View.OnClickListener onClickListenersacan = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
             Intent intent=new Intent(LabelBindingActivity.this,ScanActivity.class);
             startActivityForResult(intent,ScanActivity.SCANRESULTREQUEST);
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
@@ -96,7 +97,7 @@ public class LabelBindingActivity extends Activity {
             super.handleMessage(msg);
             CustomPopWindowPlugin.CLosePopwindow();
             String arry="";
-            if (msg.what == 1) {
+            if (msg.what == 9) {
 
                 String json = msg.obj.toString();
 
@@ -105,7 +106,7 @@ public class LabelBindingActivity extends Activity {
                     int r = jsonObject.getInt("type");
                     if (r !=1)
                     {
-                        Toast.makeText(LabelBindingActivity.this, jsonObject.getString("info"),
+                        Toast.makeText(LabelBindingActivity.this, jsonObject.getJSONObject("result").getString("info"),
                                 Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -147,12 +148,7 @@ public class LabelBindingActivity extends Activity {
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        barcode.setText("");
 
-    }
 
     @Override
     protected void onDestroy() {
@@ -169,8 +165,18 @@ public class LabelBindingActivity extends Activity {
         {
             switch (resultCode) {
                 case 1://结果
-                    barcode.setText(data.getExtras().getString("code"));
+                    String code = data.getExtras().getString("code");
+                    if (code.length()<60 ) {
+                        Toast.makeText(LabelBindingActivity.this, "扫描的不是窍号，请重新扫描",
+                                Toast.LENGTH_SHORT).show();
+
+                        return;
+
+                    }
+                    Log.i("code",code.substring(code.length()-11));
+                    barcode.setText(code.substring(code.length()-11));
                     barcode.setSelection(barcode.getText().toString().length());
+                    ScanBox(code.substring(code.length()-11));
                     break;
                 case 0://没有结果
                     break;

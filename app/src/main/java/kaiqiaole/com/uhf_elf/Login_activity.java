@@ -82,7 +82,7 @@ public class Login_activity extends Activity {
                     int r = jsonObject.getInt("type");
                     if (r !=1)
                     {
-                        Toast.makeText(Login_activity.this, jsonObject.getString("info"),
+                        Toast.makeText(Login_activity.this, jsonObject.getJSONObject("result").getString("info"),
                                 Toast.LENGTH_SHORT).show();
                         return;
                     }

@@ -35,6 +35,16 @@
             android:id="@+id/title"
             android:textSize="24dp" />
 
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/uhf_state_red"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:id="@+id/uhfstate"
+            />
+
     </RelativeLayout>
 
 
@@ -63,20 +73,25 @@
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-          android:layout_marginTop="10dp"
+            android:layout_marginTop="10dp"
             android:layout_below="@+id/rememberpwd"
             android:text="扫描身份标签"
+
             android:textSize="20dp"
+            android:enabled="false"
 
             android:layout_weight="1"
             android:textColor="@color/white"
             android:background="@drawable/login_btn_selector"
             />
         <Button
+
+            android:enabled="false"
             android:layout_weight="1"
             android:id="@+id/btnft"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
