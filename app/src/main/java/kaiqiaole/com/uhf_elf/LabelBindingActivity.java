@@ -166,17 +166,18 @@ public class LabelBindingActivity extends Activity {
             switch (resultCode) {
                 case 1://结果
                     String code = data.getExtras().getString("code");
-                    if (code.length()<60 ) {
-                        Toast.makeText(LabelBindingActivity.this, "扫描的不是窍号，请重新扫描",
-                                Toast.LENGTH_SHORT).show();
-
-                        return;
-
-                    }
-                    Log.i("code",code.substring(code.length()-11));
-                    barcode.setText(code.substring(code.length()-11));
-                    barcode.setSelection(barcode.getText().toString().length());
-                    ScanBox(code.substring(code.length()-11));
+//                    if (code.length()<60 ) {
+//                        Toast.makeText(LabelBindingActivity.this, "扫描的不是窍号，请重新扫描",
+//                                Toast.LENGTH_SHORT).show();
+//
+//                        return;
+//
+//                    }
+//                    Log.i("code",code.substring(code.length()-11));
+//                    barcode.setText(code.substring(code.length()-11));
+                    barcode.setText(code);
+                    barcode.setSelection(code.length());
+                    ScanBox(code);
                     break;
                 case 0://没有结果
                     break;
