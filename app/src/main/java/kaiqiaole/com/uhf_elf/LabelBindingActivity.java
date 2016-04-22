@@ -166,18 +166,34 @@ public class LabelBindingActivity extends Activity {
             switch (resultCode) {
                 case 1://结果
                     String code = data.getExtras().getString("code");
-//                    if (code.length()<60 ) {
+                    String convertcode ="";
+                    if (code.length()<20 ) {
+                        convertcode = code;
 //                        Toast.makeText(LabelBindingActivity.this, "扫描的不是窍号，请重新扫描",
 //                                Toast.LENGTH_SHORT).show();
-//
-//                        return;
-//
-//                    }
+
+                    }
+                    else
+                    {
+                        try {
+                            String[] str = code.split("\\?");
+                            str = str[1].split("=");
+                            convertcode = str[1];
+
+//                            convertcode = code.substring(57, code.length());
+                        }
+                        catch (Exception e)
+                        {e.printStackTrace();
+                        return;}
+                    }
+//                    http://home.kaiqiaole.com/user/myBoxDetail.action?boxCode=NJ01TYQ1143
 //                    Log.i("code",code.substring(code.length()-11));
-//                    barcode.setText(code.substring(code.length()-11));
-                    barcode.setText(code);
-                    barcode.setSelection(code.length());
-                    ScanBox(code);
+//                    barcode.setText(code.substring(57,code.length()));
+
+
+                    barcode.setText(convertcode);
+                    barcode.setSelection(convertcode.length());
+                    ScanBox(convertcode);
                     break;
                 case 0://没有结果
                     break;
